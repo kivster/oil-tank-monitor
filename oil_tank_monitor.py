@@ -12,6 +12,7 @@ oil_tank_length = 178
 oil_tank_width = 138
 oil_tank_capacity = 1200
 ping_timeout = 0.02
+domoticz_device_idx = 13
 
 def measure():
     distances = []
@@ -127,6 +128,9 @@ percent_full = (oil_level / oil_tank_height) * 100
 print "Oil tank is {}% full".format(percent_full)
 oil_litres_remaining = oil_tank_capacity * (oil_level / oil_tank_height)
 print "There is {} litres of oil in the tank".format(oil_litres_remaining)
+
+# Send percentage remaining value to virtual device in Domoticz
+urllib.urlopen("http://192.168.1.1:8080/json.htm?type=command&param=udevice&idx={}&nvalue=0&svalue={}".format( domoticz_device_idx, percent_full ))
 
 # GPIO reset
 GPIO.cleanup()
