@@ -14,6 +14,7 @@ oil_tank_capacity = 1200
 ping_timeout = 0.02
 domoticz_device_idx = 13
 
+# Take measurements by pinging the oil from HRS04 sensor and put in an array of distances. Return oil_tank_space
 def measure():
     distances = []
     for ping in range(1, number_of_pings):
@@ -44,10 +45,12 @@ def measure():
                         successful_ping=False
             else:
                 continue
-
+	    
+	    # If we don't get a successful ping, take the measurement again
             if not successful_ping:
                 continue
 
+	    # If we do get a successful ping, start distance calculations
             if successful_ping:
                 # Calculate pulse length
                 elapsed = ping_end_time - ping_start_time
